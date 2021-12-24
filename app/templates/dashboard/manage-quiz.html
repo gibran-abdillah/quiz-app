@@ -1,0 +1,32 @@
+<html>
+    <head>
+        <title>Manager Quiz</title>
+        {% include 'extra/head.html' %}
+        <link rel='stylesheet' href='{{url_for("static", filename="css/dashboard.css")}}'>
+    </head>
+<body>
+    {% include 'dashboard/includes/sidebar.html' %}
+    {% extends 'dashboard/includes/content.html' %}
+    {% block text_content %}
+        <table class='table' id='table-quiz'>
+            <thead>
+                <tr>
+                    <th>Quiz Name</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for quiz, id in data %}
+                    <tr>
+                        <td>{{quiz}}</td>
+                        <td>
+                            <a href='{{url_for("dashboard.edit_quiz", code=id)}}'>Edit</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endblock %}
+    {% include 'dashboard/includes/script.html' %}
+</body>
+</html>

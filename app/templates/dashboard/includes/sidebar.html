@@ -1,0 +1,12 @@
+<div id='sidebar' class='mySidebar'>
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+    <a href='#' class='item-menu'>Profile</a>
+    <a href='{{url_for("dashboard.change_password")}}' class='item-menu'>Change Password</a>
+    <a href='#quizcollapse' aria-expanded="false" aria-controls="quizcollapse" data-toggle='collapse' href='#quizcollapse' role='button' class='item-menu'>Quizes</a>
+    <div class='collapse' id='quizcollapse'>
+        <a href='{{url_for("dashboard.add_quizes")}}' class='item-menu'>Add Quizes</a>
+        <a href='{{url_for("dashboard.manage_quiz")}}' class='item-menu'>Manage Quizes</a>
+        <a href='{{url_for("dashboard.users_scores")}}' class='item-menu'>Users Scores</a>
+    </div>
+    <a href='{{url_for("dashboard.logout")}}' class='btn btn-outline-danger' style='margin-top: 15px; width:80px'>Logout</a>
+</div>

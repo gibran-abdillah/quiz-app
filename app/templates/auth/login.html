@@ -1,0 +1,22 @@
+<html>
+    <head>
+        <title>Login To Your Account</title>
+        {% include 'extra/head.html' %}
+    </head>
+<body>
+    <div class="login-dark">
+        <form action='#'>
+            {% include 'extra/message.html' %}
+            <div id='message'></div>
+            <div class="form-group">{{form.username(class_='form-control', placeholder='Username')}}</div>
+            <div class="form-group">{{form.password(class_='form-control', placeholder='Password')}}</div>
+            <div class='form-group'>
+                <a href='#' class='btn btn-outline-success' id='login'>Login</a>
+            </div>
+            <a class='forgot' href='{{url_for("auth.register_page")}}'>Register</a><a href='#' class='forgot mt-1'>Forgot Password</a>
+        </form>
+    </div>
+    {% include 'extra/script.html' %}
+    {% include 'extra/csrf.html' %}
+</body>
+</html>

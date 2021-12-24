@@ -1,0 +1,61 @@
+<html>
+    <head>
+        {% include 'dashboard/includes/head.html' %}
+        
+    </head>
+<body>
+    {% include 'dashboard/includes/sidebar.html' %}
+    {% extends 'dashboard/includes/content.html' %}
+
+    {% block text_content %}
+        <div id='question-box'>
+            <p>
+                ssttt.. you can <a href='{{url_for("dashboard.upload_quiz")}}'>upload your quiz from CSV!!</a>
+            </p>
+            <input type="text" name='quiz_title' placeholder="Question Title" class='questions' id='q'>
+
+            {% if forms %}
+                {% for data in forms %}
+                    <div class='question-wrapper' style="margin-top: 12px;" id='question-wrapper'>
+                        {{data.question}}
+                        <div class='option-wrapper'>
+                        <p>A. {{data.a_option}}</p>
+                        <p>B. {{data.b_option}}</p>
+                        <p>C. {{data.c_option}}</p>
+                        <p>D. {{data.d_option}}</p>
+                        <p>E. {{data.e_option}}</p>
+                        <p> {{data.answer}}  </p>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endif %}
+            {% if form %}
+            <div class='question-wrapper' style="margin-top: 12px;" id='question-wrapper'>
+                <input type='text' name='question' class='questions' placeholder="Enter Question" id='question'>
+                <div class='option-wrapper'>
+                <p>A. {{form.a_option}}</p>
+                <p>B. {{form.b_option}}</p>
+                <p>C. {{form.c_option}}</p>
+                <p>D. {{form.d_option}}</p>
+                <p>E. {{form.e_option}}</p>
+                <p> {{form.answer}}  </p>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+        <p>
+            <a href='#' class='text-success' style="font-size: 20px;" id='addquest'>
+                + add more questions
+            </a>
+        </p>
+        <p>
+            <button type='button' class='btn btn-outline-success' id='submitquest'>Submit</button>
+        </p>
+        <p id='message'></p>
+
+    {% endblock %}
+    {% include 'dashboard/includes/script.html' %}
+    {% include 'extra/csrf.html' %}
+
+</body>
+</html>

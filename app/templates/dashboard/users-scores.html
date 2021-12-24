@@ -1,0 +1,22 @@
+<html>
+    <head>
+        {% include 'dashboard/includes/head.html'%}
+    </head>
+<body>
+    {% include 'dashboard/includes/sidebar.html' %}
+    {% extends 'dashboard/includes/content.html' %}
+    {% block text_content %}
+        <table id='scores-users' class='table table-responsive'>
+            <thead>
+                <tr>
+                    <th>Done By</th>
+                    <th>Score</th>
+                    <th>Quiz Title</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+        </table>
+    {% endblock %}
+    {% include 'dashboard/includes/script.html' %}
+</body>
+</html>

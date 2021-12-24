@@ -1,0 +1,24 @@
+<html>
+    <head>
+        <title>Register</title>
+        {% include 'extra/head.html' %}
+    </head>
+<body>
+    <div class='login-dark'>
+        
+        <form action='#'>
+            <div id='message'></div>
+            <div class='form-group'>{{form.full_name(class_='form-control')}}</div>
+            <div class='form-group'>{{form.email(class_='form-control')}}</div>
+            <div class='form-group'>{{form.username(class_='form-control')}}</div>
+            <div class='form-group'>{{form.password(class_='form-control')}}</div>
+            <div class='form-group'>{{form.password_confirmation(class_='form-control')}}</div>
+            <div class='form-group'>
+                <a href='#' class='btn btn-outline-success' id='register'>Register</a>
+            </div>
+        </form>
+    </div>
+    {% include 'extra/script.html' %}
+    {% include 'extra/csrf.html' %}
+</body>
+</html>

@@ -1,0 +1,62 @@
+body {
+    background-color: #F7F7F7;
+}
+.mySidebar {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index:1;
+    left:0;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 50px;
+    box-shadow: black 2px;
+}
+.mySidebar a {
+    margin-left: 20px;
+    text-decoration: none;
+    font-size: 17px;
+    display: block;
+    transition: 0.5ms;
+}
+@media screen and (max-height: 450px) {
+    .sidebar {padding-top: 15px;}
+    .sidebar a {font-size: 18px;}
+}
+.openbtn {
+    border:0;
+    background-color: transparent;
+
+}
+.main {
+    padding: 30px;
+}
+.mySidebar .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+    margin-bottom: 30px;
+}
+.item-menu {
+    margin-top: 8px;
+    color: black;
+    font-weight: 200;
+}
+.questions {
+    width: 300px;
+    height: 20px;
+    font-size: 15px;
+}
+.question-wrapper, .answer_option {
+    margin-left: 20px;
+}
+.option-wrapper {
+    margin-left: 20px;
+    margin-top: 10px;
+    display: block;
+}
+.answer { 
+    width: 200px;
+}

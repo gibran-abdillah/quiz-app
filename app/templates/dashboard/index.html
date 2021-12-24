@@ -1,0 +1,18 @@
+<html>
+    <head>
+        <title>
+            Hello World
+        </title>
+        {% include 'extra/head.html' %}
+        <link rel='stylesheet' href='{{url_for("static", filename="css/dashboard.css")}}'>
+    </head>
+<body>
+    {% include 'dashboard/includes/sidebar.html' %}
+    {% extends 'dashboard/includes/content.html' %}
+    {% block text_content %}
+        <p>Welcome! you can manage your own quizes here</p>
+    {% endblock %}
+
+    {% include 'dashboard/includes/script.html' %}
+</body>
+</html>

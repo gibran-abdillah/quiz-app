@@ -1,0 +1,11 @@
+<html>
+    <head>
+        <title>Moonlight</title>
+    </head>
+<body>
+    {% include 'extra/script.html' %}
+    {% include 'extra/csrf.html' %}
+    <script type='text/javascript' src='{{url_for("static", filename="js/script.js")}}'></script>
+
+</body>
+</html>
