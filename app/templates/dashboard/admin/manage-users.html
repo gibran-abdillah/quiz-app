@@ -1,0 +1,29 @@
+<html>
+    <head>
+        {% include 'dashboard/includes/head.html' %}
+    </head>
+<body>
+    {% include 'dashboard/includes/sidebar.html' %}
+    {% extends 'dashboard/includes/content.html' %}
+    {% block text_content %}
+        <p id='message'></p>
+        <table id='list-users' class='table table-responsive'>
+            <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Full Name</th>
+                    <th>Joined At</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+        </table>
+        <select name="option" id='option'>
+            <option value='0' selected>Option</option>
+            <option value="delete">Delete</option>
+        </select>
+        <input type="submit" value="Submit" id="optionsubmit">
+    {% endblock %}
+    {% include 'dashboard/includes/script.html' %}
+    {% include 'extra/csrf.html' %}
+</body>
+</html>

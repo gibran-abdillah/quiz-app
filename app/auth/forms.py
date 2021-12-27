@@ -13,7 +13,7 @@ from wtforms.validators import (
 )
 
 from flask_wtf import FlaskForm
-from app.db import quiz
+from app.db import db 
 import re 
 
 
@@ -36,7 +36,7 @@ class PasswordForm:
                             render_kw={'placeholder':'Confirm Password'})    
         
 
-class RegisterForm(FlaskForm, PasswordForm):
+class ProfileForm:
     full_name = StringField('Full Name',
                     validators=[DataRequired(),
                                 Length(min=4, max=100, message='full name length must be between 4 to 100 characters')],
@@ -57,13 +57,15 @@ class RegisterForm(FlaskForm, PasswordForm):
         if re.findall(' ', username.data) or re.findall('([A-Z])', username.data):
             raise ValidationError('invalid username, space or uppercase not allowed')
         
-        if quiz.find_one({'username':username.data}):
+        if db.users.find_one({'username':username.data}):
             raise ValidationError('Username already registered')
     
     def validate_email(self, email):
-        if quiz.find_one({'email':email.data}):
+        if db.users.find_one({'email':email.data}):
             raise ValidationError('Email already registered')
         
         if not re.match(EMAIL_REGEX, email.data):
             raise ValidationError('Invalid Email Address')
 
+class RegisterForm(FlaskForm, PasswordForm, ProfileForm):
+    pass 

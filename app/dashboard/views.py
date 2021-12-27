@@ -1,11 +1,10 @@
-
 from flask import (redirect, 
                    url_for, 
                    abort, 
                    render_template, 
                    session)
-from app.dashboard.forms import QuizForm, ChangePwForm
 
+from app.dashboard.forms import QuizForm, ChangePwForm, DashProfile
 from app.dashboard import dashboard_blueprint as dashboard 
 from app.db import quiz, db
 from app.modules.decorators import login_required
@@ -14,16 +13,13 @@ from app.modules.utils import json_decoder
 @dashboard.route('/')
 @login_required
 def dashboard_index():
-    print(quiz.find_one())
     return render_template('dashboard/index.html')
 
 @dashboard.route('/manage-quiz')
 @login_required
 def manage_quiz():
-    result = json_decoder([x for x in quiz.find({'author':session.get('username')})])
-    
-
-    
+    author = {'$exists':True} if session.get('type') == 1 else session.get('username')
+    result = [x for x in quiz.find({'author':author})]
     list_id = [x['code'] for x in result if x.get('code')]
 
     list_quiz = [x['quiz_title'] for x in result 
@@ -31,6 +27,7 @@ def manage_quiz():
                 if x.get('code') == y]
 
     data = zip(list_quiz, list_id)
+    
     return render_template('dashboard/manage-quiz.html', data=data)
 
 @dashboard.route('/change-password')
@@ -45,7 +42,7 @@ def change_password():
 def edit_quiz(code):
     
     check = json_decoder(quiz.find_one({'code':code}))
-    if check and session.get('username') == check['author']:
+    if check and (session.get('username') == check['author'] or session.get('type') == 1):
         forms = []
         for data in check['data']:
             form = QuizForm()
@@ -60,6 +57,25 @@ def edit_quiz(code):
             forms.append(form)
 
         return render_template('dashboard/add-quizes.html', forms=forms)
+    abort(403)
+
+@dashboard.route('/profile')
+@login_required
+def profile_page():
+    form = DashProfile()
+    form.full_name.data = session.get('name')
+    form.username.data = session.get('username')
+    form.email.data = session.get('email')
+    return render_template('dashboard/profile.html', form=form)
+
+@dashboard.route('/delete-quiz/<code>')
+@login_required
+def delete_quiz(code):
+    result = json_decoder(quiz.find_one({'code':code}))
+    if result:
+        if result.get('author') == session.get('username') or session.get('type') == 1:
+            quiz.delete_one({'code':code})
+    return redirect(url_for('dashboard.manage_quiz'))
 
 @dashboard.route('/scores')
 @login_required
@@ -82,6 +98,7 @@ def upload_quiz():
 def logout():
     session.clear()
     return redirect(url_for('auth.login_page'))
+
 
 @dashboard.route('/add-quizes')
 @login_required

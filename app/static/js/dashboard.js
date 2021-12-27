@@ -19,6 +19,7 @@ function makeid() {
   }
   return result
 }
+
 async function uploadfile() {
   var formdata = new FormData()
 
@@ -102,6 +103,23 @@ $(document).ready(function () {
     }
 
   })
+
+  $('#editprofile').on('click', function() {
+    var username = $('#username').val()
+    var email = $('#email').val()
+    var full_name = $('#full_name').val()
+    var data = {'username':username, 'email':email, 'full_name':full_name}
+    $('#message').html('Loading...')
+
+    $.ajax({
+      url:'/api/edit-profile',
+      method:'post',
+      data:JSON.stringify(data),
+      contentType:'application/json'
+    }).done(function(e) {
+      $('#message').html(e['message'])
+    })
+  })
   $('#changepassword').on('click', function() {
     var old_password = $('#old_password').val()
     var new_password = $('#password').val()
@@ -109,6 +127,7 @@ $(document).ready(function () {
     var data = {'old_password':old_password, 
                 'password':new_password, 
                 'password_confirmation':password_confirmation}
+
     $('#messages').html('loading..')
     var responses = $.ajax({
           url:'/api/change-password',
@@ -128,7 +147,21 @@ $(document).ready(function () {
   }else if(path_name[1] == 'users-scores'){
     var scores_url = '/api/quiz/author/logged_in/getScores'
   }
-  console.log(scores_url)
+
+  $('#list-users').DataTable({
+    "processing":true,
+    "ajax":"/api/users",
+    "columns":[
+      {"data":"username"},
+      {"data":"full_name"},
+      {"data":"joined_at.$date"},
+      {"data":"username",
+       "render":function(data, type, row) {
+         return '<input type="checkbox" name="userslist[]" value="'+data+'">'  
+       }
+      }
+    ]
+  })
 
   $('#scores-users').DataTable({
         
@@ -141,6 +174,33 @@ $(document).ready(function () {
       {"data":"do_at.$date"}
     ]
   })
+  $('#optionsubmit').on('click', function() {
+    var cheky = $("input[type='checkbox']:checked")
+    var arr = Array()
+    for(var i in cheky) {
+      var data_checked = cheky[i].value
+      if(data_checked) {
+        arr.push(data_checked)
+      }
+    }
+    var option = $('#option').find(':selected')
+    if(option != '0') {
+      var data = {"option":option.val(), "data":arr}
+      $('#message').html('do some task :O')
+      $.ajax({
+        url:'/api/manage-users',
+        method:'post',
+        contentType:'application/json,charset=utf-8',
+        data:JSON.stringify(data)
+      }).done(function(r) {
+        $('#message').html(r['message'])
+        $('#list-users').DataTable().ajax.reload()
+      })
+    }
+    console.log(option.val(), JSON.stringify(data))
+
+  })
+  
   $('#table-quiz').DataTable();
 
 })

@@ -1,0 +1,20 @@
+<html>
+    <head>
+        {% include 'dashboard/includes/head.html' %}
+    </head>
+<body>
+    {% include 'dashboard/includes/sidebar.html' %}
+    {% extends 'dashboard/includes/content.html' %}
+    {% block text_content %}
+    <p id='message'></p>
+        <p>{{form.username}}</p>
+        <p>{{form.full_name}}</p>
+        <p>{{form.email}}</p>
+        <p>
+            <a href='#' class='btn btn-outline-dark' id='editprofile'>Submit</a>
+        </p>
+    {% endblock %}
+    {% include 'dashboard/includes/script.html' %}
+    {% include 'extra/csrf.html' %}
+</body>
+</html>

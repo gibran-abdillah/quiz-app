@@ -49,7 +49,7 @@ def edit_quiz(code):
     data = request.get_json()
     check = quiz.find_one({'code':code})
 
-    if check and session.get('username') == check['author']:
+    if check and (session.get('username') == check['author'] or session.get('type') == 1):
         if not data.get('quiz_title'):
             data['quiz_title'] = 'Unkown title'
         quiz.update_one(check,{'$set':data})
@@ -65,6 +65,7 @@ def nilai(code):
         list_answer = json_request.values()
         zipper = zip(list_id, list_answer)
         data_check = check['data']
+
         list_true = [
                     data_check[x]['question'] 
                     for x, y in zipper 

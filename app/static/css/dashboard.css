@@ -60,3 +60,9 @@ body {
 .answer { 
     width: 200px;
 }
+.paginate_button {
+    margin:5px;
+}
+.table-link {
+    margin-right: 18px;
+}

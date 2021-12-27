@@ -2,9 +2,9 @@ from flask import request, jsonify, abort, session
 from app.api import api_blueprint as api 
 from app import csrf_protect
 from app.auth.forms import RegisterForm, LoginForm
-from app.dashboard.forms import ChangePwForm
+from app.dashboard.forms import ChangePwForm, DashProfile
 from app.db import db, quiz
-from app.modules.decorators import login_required
+from app.modules.decorators import admin_required, login_required
 
 from app.modules.utils import (
                             generate_code, 
@@ -29,6 +29,9 @@ def add_account():
             new_data['username'] = data['username']
             new_data['password'] = generate_password(data['password'])
             new_data['joined_at'] = datetime.utcnow()
+            new_data['email'] = data.get('email')
+
+            # type 0 means its not admin
             new_data['type'] = 0
 
             insert_data = db.users.insert_one(new_data)
@@ -41,6 +44,26 @@ def add_account():
     return jsonify(status='fail', 
                    errors='<p>'.join(form.errors[x][0] for x in form.errors))
 
+@api.route('/manage-users', methods=['POST','GET'])
+@admin_required
+def manage_users():
+    request_data = request.get_json()
+    if request_data.get('option') and request_data.get('data'):
+        option = request_data.get('option')
+        data = request_data.get('data')
+        if option == 'delete':
+            db.users.delete_many({'username':{'$in':data}})
+        return jsonify(status='success', message='Task Done!')
+    return ''
+@api.route('/users')
+def show_users():
+    result = [x for x in db.users.find({})]
+    for y in result:
+        y.pop('_id')
+        y.pop('password')
+        _ = y.pop('email') if y.get('email') else ''
+    return jsonify(data=json_decoder(result))
+
 @api.route('/login', methods=['POST'])
 def api_login():
     data = request.get_json()
@@ -50,6 +73,8 @@ def api_login():
         if fetch_data and check_password(fetch_data['password'], data['password']):
             session['username'] = data['username']
             session['name'] = fetch_data['full_name']
+            session['type'] = fetch_data.get('type')
+            session['email'] = fetch_data.get('email')
             return jsonify(status='success')
             
     return jsonify(status='fail', errors='invalid username / password')
@@ -69,14 +94,20 @@ def change_password():
                                            for key, values in form.errors.items() 
                                            if len(values) != 0]))
 
-@api.route('/asal')
-def asal():
-    cek = quiz.find_one({'data':{'$exists':True}})
-    return jsonify(json_decoder(cek))
+@api.route('/edit-profile', methods=['POST','GET'])
+@login_required
+def edit_profile():
+    data = request.get_json()
+    username = data.get('username')
+    email = data.get('email')
+    if username != session.get('username'):
+        if db.users.find_one({'username':username}):
+            return jsonify(status='failed', message='Username already registered')
+    if email != session.get('email'):
+        if db.users.find_one({'email':email}):
+            return jsonify(status='failed', message='Email Already registered')
+    db.users.update_one({'username':session.get('username')}, {'$set':data})
+    session['username'] = username 
+    session['email'] = email
+    return jsonify(status='success', message='Changed')
 
-@api.route('/delete-all')
-def api_delete_all():
-    quiz.delete_many({})
-    return jsonify(
-        json_decoder([x for x in quiz.find()])
-    )

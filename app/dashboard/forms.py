@@ -4,7 +4,7 @@ from wtforms.validators import ValidationError
 
 from app.db import db
 from app.modules.utils import check_password
-from app.auth.forms import PasswordForm
+from app.auth.forms import PasswordForm, ProfileForm
 from flask import session
 
 class QuizForm(FlaskForm):
@@ -30,3 +30,5 @@ class ChangePwForm(FlaskForm, PasswordForm):
         if not old_pw or not check_password(old_pw.get('password'), old_password.data):
             raise ValidationError('invalid old password')
 
+class DashProfile(ProfileForm, FlaskForm):
+    pass 
