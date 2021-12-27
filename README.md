@@ -11,8 +11,8 @@ MONGODB_URI = 'mongodb+srv://username:password@learnmongo.scjon.mongodb.net/myFi
 - CRUD with ajax
 - Rest API
 - Add Quiz
-- Add Quz From CSV
-- Edit QUiz
+- Add Quiz From CSV
+- Edit Quiz
 - Quiz author can see score that if quiz were done by other users ( only for logged in users ) 
 - We can see the quiz scores that have been done
 - Register 
