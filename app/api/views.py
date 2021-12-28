@@ -53,8 +53,11 @@ def manage_users():
         data = request_data.get('data')
         if option == 'delete':
             db.users.delete_many({'username':{'$in':data}})
+        elif option == 'promote':
+            db.users.update_many({'username':{'$in':data}}, {'$set':{'type':1}})
         return jsonify(status='success', message='Task Done!')
     return ''
+
 @api.route('/users')
 def show_users():
     result = [x for x in db.users.find({})]
@@ -83,6 +86,7 @@ def api_login():
 def change_password():
     if not session.get('username', None):
         return jsonify(status='fail', message='not logged in')
+
     json_request = request.get_json()
     form = ChangePwForm(data=json_request)
     if form.validate() and json_request.get('password'):

@@ -155,6 +155,7 @@ $(document).ready(function () {
       {"data":"username"},
       {"data":"full_name"},
       {"data":"joined_at.$date"},
+      {"data":"type"},
       {"data":"username",
        "render":function(data, type, row) {
          return '<input type="checkbox" name="userslist[]" value="'+data+'">'  
