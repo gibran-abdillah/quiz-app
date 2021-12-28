@@ -13,8 +13,10 @@ MONGODB_URI = 'mongodb+srv://username:password@learnmongo.scjon.mongodb.net/myFi
 - Add Quiz
 - Add Quiz From CSV
 - Edit Quiz
+- Delete QUiz 
 - Quiz author can see score that if quiz were done by other users ( only for logged in users ) 
-- We can see the quiz scores that have been done
+- We can see the quiz scores that we have been done
+- Bulk delete for users ( admin level ) 
 - Register 
 - Login 
 - Change Password
