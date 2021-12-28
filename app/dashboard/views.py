@@ -2,7 +2,8 @@ from flask import (redirect,
                    url_for, 
                    abort, 
                    render_template, 
-                   session)
+                   session, 
+                   request)
 
 from app.dashboard.forms import QuizForm, ChangePwForm, DashProfile
 from app.dashboard import dashboard_blueprint as dashboard 
@@ -19,6 +20,7 @@ def dashboard_index():
 @login_required
 def manage_quiz():
     author = {'$exists':True} if session.get('type') == 1 else session.get('username')
+    print(author)
     result = [x for x in quiz.find({'author':author})]
     list_id = [x['code'] for x in result if x.get('code')]
 
@@ -63,6 +65,7 @@ def edit_quiz(code):
 @login_required
 def profile_page():
     form = DashProfile()
+
     form.full_name.data = session.get('name')
     form.username.data = session.get('username')
     form.email.data = session.get('email')
