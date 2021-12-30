@@ -21,6 +21,9 @@ export "MONGODB_URI = mongodb+srv://username:password@learnmongo.scjon.mongodb.n
 - Login 
 - Change Password
 
+## Demo 
+<a href='http://another-myapp.herokuapp.com/'>http://another-myapp.herokuapp.com</a>
+
 ## Screenshots 
 ### Dashboard Scores 
 ![Screenshots](https://github.com/gibran-abdillah/quiz-app/raw/main/screenshots/dashboard_scores.png)
