@@ -4,19 +4,17 @@ import os
 
 class GeneralConfig:
     SECRET_KEY = os.urandom(12)
+    MONGODB_URI = os.environ.get('MONGODB_URI','')
 
 class DevelopmentConfig(GeneralConfig):
-    MONGODB_URI = 'mongodb+srv://darling:hannajoanna@learnmongo.scjon.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
     DB_NAME = 'quiz_app'
     COLLECTIONS_NAME = 'development'
 
 class ProductionConfig(GeneralConfig):
-    MONGODB_URI = 'mongodb+srv://darling:hannajoanna@learnmongo.scjon.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
     DB_NAME = 'quiz_app'
     COLLECTIONS_NAME = 'production'
 
 class TestingConfig(GeneralConfig):
-    MONGODB_URI = 'mongodb+srv://darling:hannajoanna@learnmongo.scjon.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
     DB_NAME = 'quiz_app'
     COLLECTIONS_NAME = 'testing'
     DEBUG = True
