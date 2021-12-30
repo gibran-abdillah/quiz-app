@@ -17,7 +17,7 @@ $(document).ready(function() {
                     $('#message').html('<p>Success, redirecting</p>')
                     window.location.href = '/dashboard'
                 }else{
-                    $('#message').html('<p>Registered, you can login now</p>')
+                    $('#message').html('<p>Registered, you can <a href="/auth/login" class="text-info">login now</a></p>')
                 }
             }
         }
@@ -119,7 +119,6 @@ $(document).ready(function() {
                         for(var y=0; y < answer.length; y++){
                             data[answer[y].name] = answer[y].value
                         }
-                        console.log(data)
                         if(Object.keys(data).length < Object.keys(r).length) {
                             alert('not finished yet!')
                         }else{
