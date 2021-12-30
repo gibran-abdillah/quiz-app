@@ -8,10 +8,11 @@
     {% include 'dashboard/includes/sidebar.html' %}
     {% extends 'dashboard/includes/content.html' %}
     {% block text_content %}
-        <table class='table' id='table-quiz'>
+        <table class='table table-responsive' id='table-quiz'>
             <thead>
                 <tr>
                     <th>Quiz Name</th>
+                    <th>Link</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -19,6 +20,7 @@
                 {% for quiz, id in data %}
                     <tr>
                         <td>{{quiz}}</td>
+                        <td>{{url_for("quiz.quiz_homepage", code=id, _external=True)}}</td>
                         <td>
                             <a href='{{url_for("dashboard.edit_quiz", code=id)}}' class='table-link'>Edit</a>
                             <a href='{{url_for("dashboard.delete_quiz", code=id)}}' class='text-danger'>Delete</a>
