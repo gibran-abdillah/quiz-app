@@ -3,4 +3,4 @@ from flask import render_template
 
 @main.route('/')
 def main_index():
-    return 'Hello World'
+    return render_template('main/index.html')
