@@ -81,7 +81,7 @@ $(document).ready(function () {
         contentType:"application/json, charset=utf-8",
         data:JSON.stringify(completed_data)
       }).done(function(e) {
-        $('#message').html(e['status'])
+        $('#message').html(e['status'] + 'here is your link ' + e['url'])
       })
 
     }else{
@@ -175,6 +175,7 @@ $(document).ready(function () {
       {"data":"do_at.$date"}
     ]
   })
+
   $('#optionsubmit').on('click', function() {
     var cheky = $("input[type='checkbox']:checked")
     var arr = Array()

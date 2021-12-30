@@ -17,7 +17,7 @@ def add_quiz():
         data['author'] = session.get('username')
         data['created_at'] = datetime.utcnow()
         quiz.insert_one(data)
-        return jsonify(status='success', url=url_for('quiz.quiz_homepage', code=code_generated))
+        return jsonify(status='success', url=url_for('quiz.quiz_homepage', code=code_generated, _external=True))
         
     return jsonify(status='fail', message='invalid data')
 
@@ -26,7 +26,7 @@ def getquestion(code):
     check = quiz.find_one({'code':code})
     if check:
         data = check['data']
-        [data[x].pop('answer') for x in data ]
+        [data[x].pop('answer') for x in data ] # remove answer in quiz object
         return jsonify(
             json_decoder(data)
         )
@@ -54,7 +54,7 @@ def edit_quiz(code):
             data['quiz_title'] = 'Unkown title'
         quiz.update_one(check,{'$set':data})
         
-    return jsonify(status='success')
+    return jsonify(status='success', url=url_for("quiz.quiz_homepage", code=code, _external=True))
 
 @api.route('/quiz/nilai/<code>', methods=['POST'])
 def nilai(code):
@@ -100,7 +100,7 @@ def get_scorest(author):
     """
     if author == 'logged_in':
         if session.get('username'):
-            author = session.get('username')
+            author = {'$exists':True} if session.get('type') == 1 else session.get('username')
         else:
             return jsonify(status='fail', message='not logged in')
     
@@ -108,6 +108,7 @@ def get_scorest(author):
     get_code = json_decoder(
         [x.get('code') for x in quiz.find({'author':author})]
     )
+    print(get_code)
     if get_code:
         get_data = [y for y in db.score.find({'quiz_code':{'$in':get_code}})]
         return jsonify(status='success', data=json_decoder(get_data))
