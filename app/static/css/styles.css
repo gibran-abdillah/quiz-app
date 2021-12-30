@@ -1,5 +1,5 @@
 .question-title {
-  font-weight: 300;
+  font-weight: 400;
 }
 .login-dark {
     height:1000px;
@@ -109,3 +109,15 @@ input[type='radio']:checked+span {
     /* Support for IE. */
     font-feature-settings: 'liga';
   }
+
+.navbar .navbar-nav .nav-item .nav-link {
+  text-transform: uppercase;
+  font-weight: 200;
+  color:black;
+}
+.hero-text {
+  margin-top: 15px;
+}
+.hero {
+  margin-top: 100px;
+}
