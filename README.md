@@ -23,6 +23,8 @@ export "MONGODB_URI = mongodb+srv://username:password@learnmongo.scjon.mongodb.n
 
 ## Demo 
 <a href='http://another-myapp.herokuapp.com/'>http://another-myapp.herokuapp.com</a>
+- userame  : admin
+- password : admin1
 
 ## Screenshots 
 ### Dashboard Scores 
