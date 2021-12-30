@@ -7,15 +7,15 @@ class GeneralConfig:
     MONGODB_URI = os.environ.get('MONGODB_URI','')
 
 class DevelopmentConfig(GeneralConfig):
-    DB_NAME = 'quiz_app'
+    DB_NAME = 'quiz_development'
     COLLECTIONS_NAME = 'development'
 
 class ProductionConfig(GeneralConfig):
-    DB_NAME = 'quiz_app'
+    DB_NAME = 'quiz_production'
     COLLECTIONS_NAME = 'production'
 
 class TestingConfig(GeneralConfig):
-    DB_NAME = 'quiz_app'
+    DB_NAME = 'quiz_testing'
     COLLECTIONS_NAME = 'testing'
     DEBUG = True
 
