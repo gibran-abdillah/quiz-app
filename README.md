@@ -1,10 +1,10 @@
 # quiz-app
 Quiz Web Application made with flask and mongodb as the Databases
 
-### Before you run this application, change the inside MONGODB_URI ( in config.py ) to your cluster database. <a href='https://docs.atlas.mongodb.com/connect-to-cluster/'>( Read More ) </a>
+### Before you run the application, set your mongodb uri to environ. <a href='https://docs.atlas.mongodb.com/connect-to-cluster/'>( Read More )</a> how to get your cluster database
 Example for MONGODB_URI :
-```python
-MONGODB_URI = 'mongodb+srv://username:password@learnmongo.scjon.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
+```sh
+export "MONGODB_URI = mongodb+srv://username:password@learnmongo.scjon.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
 ```
 
 ## Features 
