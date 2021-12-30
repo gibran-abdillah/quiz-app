@@ -1,6 +1,8 @@
 from datetime import datetime
 from app import create_app
 from app.modules.utils import generate_password
+from flask_wtf.csrf import CSRFError
+from flask import jsonify
 import os
 
 app = create_app(os.environ.get('FLASK_ENV','development'))
@@ -33,7 +35,9 @@ def seed_data():
         if insert_data.inserted_id:
             app.logger.info('new user added')
     
-    
+@app.errorhandler(CSRFError)
+def error_csrf(e):
+    return jsonify(status='fail', errors='CSRF Error, please refresh the page')
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=os.environ.get('PORT', 5000))
