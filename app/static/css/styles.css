@@ -119,5 +119,10 @@ input[type='radio']:checked+span {
   margin-top: 15px;
 }
 .hero {
-  margin-top: 100px;
+  margin-top: 60px;
+}
+@media screen and (max-width: 600px) {
+  .hero {
+    margin-left: 22px;
+  }
 }
