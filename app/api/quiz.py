@@ -108,7 +108,6 @@ def get_scorest(author):
     get_code = json_decoder(
         [x.get('code') for x in quiz.find({'author':author})]
     )
-    print(get_code)
     if get_code:
         get_data = [y for y in db.score.find({'quiz_code':{'$in':get_code}})]
         return jsonify(status='success', data=json_decoder(get_data))

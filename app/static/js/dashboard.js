@@ -81,7 +81,7 @@ $(document).ready(function () {
         contentType:"application/json, charset=utf-8",
         data:JSON.stringify(completed_data)
       }).done(function(e) {
-        $('#message').html(e['status'] + 'here is your link ' + e['url'])
+        $('#message').html(e['status'] + ' here is your link ' + e['url'])
       })
 
     }else{
