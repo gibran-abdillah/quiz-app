@@ -1,4 +1,6 @@
 from flask import request, jsonify, abort, session
+from flask.helpers import url_for
+from werkzeug.utils import redirect
 from app.api import api_blueprint as api 
 from app import csrf_protect
 from app.auth.forms import RegisterForm, LoginForm
@@ -55,8 +57,10 @@ def manage_users():
             db.users.delete_many({'username':{'$in':data}})
         elif option == 'promote':
             db.users.update_many({'username':{'$in':data}}, {'$set':{'type':1}})
+        elif option == 'unpromote':
+            db.users.update_many({'username':{'$in':data}}, {"$set":{'type':0}})
         return jsonify(status='success', message='Task Done!')
-    return ''
+    return jsonify(status='failed', message='what are you doing here?')
 
 @api.route('/users')
 def show_users():
