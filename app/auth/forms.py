@@ -45,7 +45,7 @@ class ProfileForm:
     email = StringField('Email', validators=[DataRequired('Email required')], render_kw={'placeholder':'Email'})
 
     username = StringField('Username ', 
-                            validators=[DataRequired(message='Username is required')],
+                            validators=[DataRequired(message='Username is required'), Length(min=4, max=14, message='Username length must be between 4 to 14 characters')],
                             render_kw={'placeholder':'username'})
     
     
