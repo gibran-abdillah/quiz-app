@@ -17,6 +17,8 @@ export "MONGODB_URI = mongodb+srv://username:password@learnmongo.scjon.mongodb.n
 - Quiz author can see score that if quiz were done by other users ( only for logged in users ) 
 - We can see the quiz scores that we have been done
 - Bulk delete for users ( admin level ) 
+- Bulk promote users to admin
+- Bulk unpromote users from admin role 
 - Register 
 - Login 
 - Change Password
