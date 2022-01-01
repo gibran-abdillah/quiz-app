@@ -1,0 +1,18 @@
+<section class='hero' id='hero'>
+    <div class='container'>
+        <div class='row d-flex'>
+            {% block content_page %}
+                <div class='col-lg-6'>
+                    <h2>Quiz Web App with Flask and MongoDB</h2>
+                    <p class='text-dark hero-text'>
+                        The more you know, the more you don't know, that's the law! keep finding until you feel like an idiot ;)
+                    </p>
+                    <p class='hero-text'>
+                        <a href='{{url_for("auth.register_page")}}' class='btn btn-outline-dark'>Sign Up Now!</a>
+                        <a href='https://github.com/gibran-abdillah/quiz-app' class='btn btn-outline-dark ml-1'>Project Link</a>
+                    </p>
+                </div>
+            {% endblock %}
+        </div>
+    </div>
+</section>
