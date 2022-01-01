@@ -5,3 +5,6 @@ from flask import render_template
 def quiz_homepage(code):
     return render_template('quiz/index.html')
     
+@quiz.route('/')
+def index_quiz():
+    return render_template('quiz/landing-page.html')
