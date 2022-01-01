@@ -1,11 +1,11 @@
 from datetime import datetime
-from os import CLD_EXITED
 from flask import request, jsonify, session, url_for
 from app.api import api_blueprint as api 
 from app.modules.decorators import login_required
 from app.modules.utils import generate_code, json_decoder, ObjectId
 from app.db import quiz, db 
-import csv, io
+from app import csrf_protect
+import csv, io, pymongo
 
 @api.route('/quiz/add-quiz', methods=['POST'])
 @login_required
@@ -123,6 +123,26 @@ def my_scores():
     get_data = json_decoder([x for x in db.score.find({'done_by':session.get('username')})])
     return jsonify(status='success', data=get_data)
 
+@api.route('/quiz/search', methods=['POST'])
+def quiz_search():
+    data = request.get_json()
+    
+    # check index for search text
+    if not quiz.index_information().get('search_text'):
+    
+        quiz.create_index([
+            ('data.question', pymongo.TEXT), 
+            ('quiz_title', pymongo.TEXT), 
+            ('code', pymongo.TEXT)], name='search_text')
+        print('new index created ..')
+    
+    query_search = {'$text':{'$search':str(data.get('search'))}}
+    result_search = json_decoder([x for x in quiz.find(query_search)])
+    if result_search:
+        return jsonify(status='success', 
+                       data=[url_for('quiz.quiz_homepage', code=x.get('code'), _external=True) for x in result_search])
+
+    return jsonify(status='fail', data=result_search)
 
 @api.route('/quiz/uploadCsv', methods=['POST'])
 @login_required
