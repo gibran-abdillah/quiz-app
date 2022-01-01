@@ -19,8 +19,9 @@ def dashboard_index():
 @dashboard.route('/manage-quiz')
 @login_required
 def manage_quiz():
+
     author = {'$exists':True} if session.get('type') == 1 else session.get('username')
-    print(author)
+
     result = [x for x in quiz.find({'author':author})]
     list_id = [x['code'] for x in result if x.get('code')]
 
@@ -46,7 +47,7 @@ def edit_quiz(code):
     check = json_decoder(quiz.find_one({'code':code}))
     if check and (session.get('username') == check['author'] or session.get('type') == 1):
         forms = []
-        for data in check['data']:
+        for data in range(len(check['data'])):
             form = QuizForm()
             
             form.a_option.data = check['data'][data].get('a_option')
