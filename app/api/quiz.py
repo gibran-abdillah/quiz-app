@@ -25,13 +25,10 @@ def add_quiz():
 def getquestion(code):
     check = quiz.find_one({'code':code})
     if check:
-        data = check['data']
-        [data[x].pop('answer') for x in data ] # remove answer in quiz object
-        return jsonify(
-            json_decoder(data)
-        )
+        data = check['data'] 
+        [x.pop('answer') for x in data]
+        return jsonify(data)
     return jsonify(status='failed')
-
 
 @api.route('/quiz/view/<code>')
 @login_required
@@ -61,11 +58,16 @@ def nilai(code):
     check = json_decoder(quiz.find_one({'code':code}))
     json_request = request.get_json()
     if check:
-        list_id = [x.replace('quest_','') for x in json_request]
+
+        """
+        initial data from quest_0, quest_1, etc.
+        we just need to take the integer there as the index of the data by replacing the 'quest_' string
+        """
+        
+        list_id = [int(x.replace('quest_','')) for x in json_request]
         list_answer = json_request.values()
         zipper = zip(list_id, list_answer)
         data_check = check['data']
-
         list_true = [
                     data_check[x]['question'] 
                     for x, y in zipper 
@@ -132,17 +134,17 @@ def upload_csv():
         
         content = io.StringIO(files.stream.read().decode('utf-8'))
         csv_dict = csv.DictReader(content)
-        data = {}
+        list_data = []
         for x in csv_dict:
 
             # validate content for quizes
             if x.get('question') and x.get('a_option',None) \
                 and x.get('b_option') and x.get('answer'):
-                data[generate_code()] = x 
+                list_data.append(x)
             else:
                 return jsonify(status='failed', message='invalid format question')
 
-        new_data = {'data':data, 
+        new_data = {'data':list_data, 
                     'code':generate_code(), 
                     'author':session.get('username','unkown'),
                     'created_at':datetime.utcnow(),
