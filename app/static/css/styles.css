@@ -126,3 +126,8 @@ input[type='radio']:checked+span {
     margin-left: 22px;
   }
 }
+@media screen and (min-width: 800px ) {
+  .navbar .navbar-nav .nav-item {
+    margin-left: 10px;
+  }
+}
