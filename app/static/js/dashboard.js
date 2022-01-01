@@ -49,6 +49,7 @@ $(document).ready(function () {
     var final_data = {}
     var valid = true 
     var data = {}
+    var my_list = Array()
     var question_wrapper = document.getElementsByClassName('question-wrapper')
     for(var i =0; i < question_wrapper.length; i++){
       var inputs = question_wrapper[i].getElementsByTagName('input')
@@ -61,12 +62,17 @@ $(document).ready(function () {
         }
         data[name_input] = value_input
       }
-      final_data[makeid()] = data 
+
+      my_list.push(data)
+
       completed_data['quiz_title'] = document.getElementById('q').value
-      completed_data['data'] = final_data
+      completed_data['data'] = my_list
+      
+
       data = {}
 
     }
+    completed_data['data'] = my_list
 
     if(valid ) {
       if(path_name.length == 3 & path_name[1] == 'edit-quiz'){
