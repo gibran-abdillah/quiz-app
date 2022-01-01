@@ -97,6 +97,30 @@ $(document).ready(function() {
        auth_checker('/api/login', data_log)
 
    })
+   $('#submitsearch').on('click', function() {
+       var search_value = $('#search').val()
+       if(search_value.length != 0) {
+           var data = {}
+           data['search'] = search_value
+           $('#messages').html('Loading..')
+           $.ajax({
+               url:'/api/quiz/search',
+               data:JSON.stringify(data),
+               contentType:'application/json, charset=utf-8',
+               method:'post'
+           }).done(function(r) {
+               if(r['status'] == 'success') {
+                   $('#messages').html('Result : ')
+                   for(var i in r['data']) {
+                       $('#messages').append('<p>' + r['data'][i] + '</p>')
+                   }
+               }else{
+                   $('#messages').html('No result.')
+               }
+           })
+       } 
+   })
+
    if(path_name.length == 3 && path_name[1] == 'start' && path_name[0] == 'quiz'){
        $('#next').hide()
        var data_quiz = get_quiz(path_name[2])
