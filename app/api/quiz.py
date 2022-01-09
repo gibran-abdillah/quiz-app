@@ -1,11 +1,12 @@
+from codecs import decode
 from datetime import datetime
 from flask import request, jsonify, session, url_for
 from app.api import api_blueprint as api 
 from app.modules.decorators import login_required
-from app.modules.utils import generate_code, json_decoder, ObjectId
+from app.modules.utils import generate_code, generate_password, json_decoder, ObjectId
 from app.db import quiz, db 
 from app import csrf_protect
-import csv, io, pymongo
+import csv, io, pymongo, json 
 
 @api.route('/quiz/add-quiz', methods=['POST'])
 @login_required
@@ -26,7 +27,7 @@ def getquestion(code):
     check = quiz.find_one({'code':code})
     if check:
         data = check['data'] 
-        [x.pop('answer') for x in data]
+        [x.pop('answer') for x in data if x.get('answer')]
         return jsonify(data)
     return jsonify(status='failed')
 
@@ -172,15 +173,34 @@ def upload_csv():
                     }
 
         quiz.insert_one(new_data)
-        
         return jsonify(status='success', code=new_data.get('code'))
+
+    elif files and files.filename.split('.')[-1] == 'json':
+        content = io.StringIO(files.stream.read().decode('utf-8'))
+        try:
+            content_json = json.load(content)
+            
+            # validate format for quiz 
+            for data in content_json:
+                if not data.get('question') or not data.get('answer')\
+                    or not data.get('a_option') or not data.get('c_option'):
+                
+                    return jsonify(status='failed', message='invalid quiz format')
+
+            new_data = {
+                'data':content_json,
+                'code':generate_code(),
+                'author':session.get('username'),
+                'created_at':datetime.utcnow(),
+                'quiz_title':request.form.get('quiz_title', 'Unkown Title')
+            }
+
+            quiz.insert_one(new_data)
+            return jsonify(status='success', code=new_data.get('code'))
+
+        except Exception as e:
+            return jsonify(status='failed', message='invalid json format')
+        
+        
     return jsonify(status='failed', message='files not found/ invalid file')
 
-
-@api.route('/getAll')
-def getall():
-    return jsonify(
-        json_decoder(
-            [x for x in quiz.find()]
-        )
-    )
