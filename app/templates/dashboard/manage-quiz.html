@@ -23,6 +23,7 @@
                         <td>{{url_for("quiz.quiz_homepage", code=id, _external=True)}}</td>
                         <td>
                             <a href='{{url_for("dashboard.edit_quiz", code=id)}}' class='table-link'>Edit</a>
+                            <a href='{{url_for("dashboard.download_quiz", code=id)}}' class='table-link'>Download</a>
                             <a href='{{url_for("dashboard.delete_quiz", code=id)}}' class='text-danger'>Delete</a>
                         </td>
                     </tr>
