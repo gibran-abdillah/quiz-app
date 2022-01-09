@@ -1,5 +1,6 @@
 from flask import (redirect, 
                    url_for, 
+                   Response,
                    abort, 
                    render_template, 
                    session, 
@@ -11,10 +12,42 @@ from app.db import quiz, db
 from app.modules.decorators import login_required
 from app.modules.utils import json_decoder
 
+import io, json 
+
 @dashboard.route('/')
 @login_required
 def dashboard_index():
     return render_template('dashboard/index.html')
+
+
+@dashboard.route('/quiz/download/<code>')
+@login_required
+def download_quiz(code):
+    """
+    function to export quiz from json to download for users
+    """
+    result = quiz.aggregate([
+        {'$match':{
+            'code':code
+        }},
+        {'$group':{
+            '_id':'$code',
+            'data':{
+                '$first':'$data'
+            }
+        }}
+    ])
+
+    list_result = [_ for _ in result]
+    if list_result:
+        data_result = json.dumps(list_result[-1]['data'])
+        
+        return Response(
+            io.StringIO(data_result), status=200,
+            mimetype='application/json',
+            headers={'Content-Disposition':'attachment;filename={}.json'.format(code)}
+        )
+
 
 @dashboard.route('/manage-quiz')
 @login_required
@@ -110,3 +143,13 @@ def add_quizes():
     form = QuizForm()
     return render_template('dashboard/add-quizes.html', form=form)
 
+
+@dashboard.route('/export-quiz/<code>')
+def export_quiz(code):
+    check_exists = quiz.find_one({'code':code})
+    if check_exists:
+        resp = Response(json_decoder(check_exists), mimetype='application/csv')
+        resp.headers['Content-Disposition'] = 'attachment: filename={}.csv'.format(code)
+        resp.headers['Content-Length'] = len(check_exists)
+        return resp
+    return 'no'
