@@ -12,7 +12,8 @@ export "MONGODB_URI = mongodb+srv://username:password@learnmongo.scjon.mongodb.n
 - Search Quiz
 - Rest API
 - Add Quiz
-- Add Quiz From CSV
+- Upload Quiz From CSV
+- Upload Quiz from JSON
 - Edit Quiz
 - Delete QUiz 
 - Quiz author can see score that if quiz were done by other users ( only for logged in users ) 
@@ -23,6 +24,7 @@ export "MONGODB_URI = mongodb+srv://username:password@learnmongo.scjon.mongodb.n
 - Register 
 - Login 
 - Change Password
+
 
 ## Demo 
 <a href='http://another-myapp.herokuapp.com/'>http://another-myapp.herokuapp.com</a>
